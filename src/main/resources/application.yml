@@ -1,0 +1,19 @@
+spring:
+  profiles.active: default
+---
+spring:
+  mongo:
+    spring.data.mongodb.host: localhost
+    spring.data.mongodb.port: 27017
+    spring.data.mongodb.database: app1
+  elastic:
+    elasticsearch.clustername : elasticsearch
+    elasticsearch.host : localhost
+    elasticsearch.port : 9200
+logging:
+  level.com.trpo.lectureRepo: DEBUG
+  file: ./lectureRepo.log
+data-update-schedule:
+  indexing: 0 0/5 * * * MON-FRI # every Friday at 12:00
+
+
