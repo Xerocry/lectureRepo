@@ -2,10 +2,13 @@ spring:
   profiles.active: default
 ---
 spring:
-  mongo:
-    spring.data.mongodb.host: localhost
-    spring.data.mongodb.port: 27017
-    spring.data.mongodb.database: app1
+  datasource:
+    url:
+    driver-class-name:
+  http:
+    multipart:
+      max-file-size: 500KB
+      max-request-size: 500KB
   elastic:
     elasticsearch.clustername : elasticsearch
     elasticsearch.host : localhost
@@ -15,5 +18,3 @@ logging:
   file: ./lectureRepo.log
 data-update-schedule:
   indexing: 0 0/5 * * * MON-FRI # every Friday at 12:00
-
-
