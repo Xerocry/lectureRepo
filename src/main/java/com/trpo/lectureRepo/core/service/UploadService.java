@@ -1,8 +1,6 @@
 package com.trpo.lectureRepo.core.service;
 
-import com.trpo.lectureRepo.core.entity.File;
-import com.trpo.lectureRepo.core.repositories.DocumentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.trpo.lectureRepo.core.models.entity.File;
 import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,7 +1,6 @@
-package com.trpo.lectureRepo.core.repositories;
+package com.trpo.lectureRepo.core.models.repository;
 
-import com.trpo.lectureRepo.core.entity.File;
-import org.springframework.data.elasticsearch.repository.ElasticsearchCrudRepository;
+import com.trpo.lectureRepo.core.models.entity.File;
 
 import java.util.List;
 

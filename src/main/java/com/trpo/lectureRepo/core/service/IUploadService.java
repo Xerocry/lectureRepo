@@ -1,6 +1,6 @@
 package com.trpo.lectureRepo.core.service;
 
-import com.trpo.lectureRepo.core.entity.File;
+import com.trpo.lectureRepo.core.models.entity.File;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

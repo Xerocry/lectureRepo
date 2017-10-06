@@ -10,9 +10,9 @@ spring:
       max-file-size: 500KB
       max-request-size: 500KB
   elastic:
-    elasticsearch.clustername : elasticsearch
-    elasticsearch.host : 18.220.91.47
-    elasticsearch.port : 9200
+    elasticsearch.clustername: elasticsearch
+    elasticsearch.host: 18.220.91.47
+    elasticsearch.port: 9200
 logging:
   level.com.trpo.lectureRepo: DEBUG
   file: ./lectureRepo.log
