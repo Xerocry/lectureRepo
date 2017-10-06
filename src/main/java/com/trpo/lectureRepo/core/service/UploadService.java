@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,23 +20,36 @@ import java.nio.file.Paths;
 @Service
 public class UploadService implements IUploadService {
 
-    private final Path rootLocation = Paths.get("/home/xerocry");
+    private final Path rootLocation = Paths.get("C://sr///");
 
-    @Autowired
-    private DocumentRepository docRepository;
+//    @Autowired
+//    private DocumentRepository docRepository;
 
     @Override
-    public void uploadFile(MultipartFile file) {
-        try {
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
-        } catch (Exception e) {
-            throw new RuntimeException("FAIL!");
+    public String uploadFile(MultipartFile file) {
+        if (file.isEmpty()) {
+            return "redirect:uploadStatus";
         }
+
+        try {
+
+            // Get the file and save it somewhere
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get(rootLocation + file.getOriginalFilename());
+            Files.write(path, bytes);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         log.info("Uploading file");
+        return "redirect:/uploadStatus";
     }
 
     @Override
     public File findFile(String word) {
-        return docRepository.findOne(word);
+
+//        return docRepository.findOne(word);
+        return null;
     }
 }

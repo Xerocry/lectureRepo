@@ -1,18 +1,55 @@
+import jp.classmethod.aws.gradle.ec2.AmazonEC2ImportKeyTask;
+import jp.classmethod.aws.gradle.ec2.AmazonEC2RunInstanceTask;
+import jp.classmethod.aws.gradle.ec2.AmazonEC2StartInstanceTask;
+import jp.classmethod.aws.gradle.ec2.AmazonEC2StopInstanceTask;
+import jp.classmethod.aws.gradle.ec2.AmazonEC2TerminateInstanceTask;
+import jp.classmethod.aws.gradle.ec2.AmazonEC2WaitInstanceStatusTask;
+
+
 buildscript {
 	ext {
 		springBootVersion = '1.5.7.RELEASE'
 	}
 	repositories {
 		mavenCentral()
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "jp.classmethod.aws:gradle-aws-plugin:0.+"
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.2.3'
 	}
 }
 
+apply plugin: 'com.bmuschko.cargo'
 apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'eclipse'
+apply plugin: 'war'
 apply plugin: 'org.springframework.boot'
+apply plugin: "jp.classmethod.aws.ec2"
+aws {
+    profileName = "default"
+    region = "ap-northeast-1"
+}
+
+task importKey(type: AmazonEC2ImportKeyTask) {
+    keyName "sample-key"
+    publicKeyMaterial "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCDSfT3mJ5LbEIVgxh0FIFyERmfML2FkEmTCmF6dxmuJGiHaja6e71IwALDAH2B6HyrEbzuYE+43DMFxgnglkzOnZ5azWnotDDqXUS+Rg+EKU7vDzMifV5iQ13oVwQSr0vGX2WDzvhKMe9nQtUsu1LAVHir128Bnl6M76VrlAfjEX2sUfHGzWKEPzyTY0DgQFQo+2e37bP2M0Wvrb+CJxlFLQPsDc5ebB2hWnJtWK++7IORT7mgLLeLCRZQ7sOF1ZUP5ax0M9j7dl7+m6Vev/fHIbQjqVPRKbgm35iOCTkto8lHCZmoRGQmG6t83T8FSy7Pzd4XDw49hDF1uXZXkl19"
+    ifNotExists true
+}
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}
+
+
+cargoDeployRemote.dependsOn assemble
+cargoRedeployRemote.dependsOn assemble
 
 group = 'com.trpo'
 version = '0.0.1-SNAPSHOT'
@@ -27,9 +64,30 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-elasticsearch')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 	compile ('one.util:streamex:0.6.5')
 	compile ('org.apache.commons:commons-csv:1.4')
 	compile ('commons-net:commons-net:3.6')
 	compile ('org.projectlombok:lombok:1.16.4')
+}
+
+jar {
+    baseName = 'lecture-repo'
+    version = '0.0.1-SNAPSHOT'
+}
+
+war {
+    archiveName = 'ROOT.war'
+}
+
+cargo {
+    containerId = 'tomcat8x'
+    port = 80
+    remote {
+        hostname = 'ec2-18-220-91-47.us-east-2.compute.amazonaws.com'
+        username = 'xerocry '
+        password = '65225855Aa'
+    }
 }

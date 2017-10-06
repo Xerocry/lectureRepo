@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by raskia on 9/21/2017.
  */
-public interface DocumentRepository extends ElasticsearchCrudRepository<File, String> {
+public interface DocumentRepository{
     File findByFirstName(String name);
 
     List<File> findByLastName(String name);

@@ -18,9 +18,18 @@ public class EllasticController {
     UploadService uploadService;
 
 
+    @RequestMapping(method = RequestMethod.GET)
+    public String upload() {
+        return "upload";
+    }
+
     @RequestMapping(method = RequestMethod.POST)
-    public void upload(@RequestParam("file") MultipartFile file) {
-        uploadService.uploadFile(file);
+    public String upload(@RequestParam("file") MultipartFile file) {
+        try {
+            uploadService.uploadFile(file);
+        } catch (Exception e) {
+        }
+        return "upload";
     }
 
     @RequestMapping(value = "/{word}", method = RequestMethod.GET)

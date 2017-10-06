@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
  * Created by raskia on 9/21/2017.
  */
 public interface IUploadService {
-    public void uploadFile(MultipartFile file);
+    public String uploadFile(MultipartFile file);
 
     public File findFile(String word);
 }
